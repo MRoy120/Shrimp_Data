@@ -30,7 +30,7 @@ shrimp_analysis <- read.csv('./2014_Data_Jun_to_Oct.dat')
   (shrimp_analysis$Size.Class.Sample <- NULL)
 
   head(shrimp_analysis)
-  shrimp_analysis[1:200, ]
+  shrimp_analysis[600:1000, ]
   str(shrimp_analysis)
   dim(shrimp_analysis)
   attach(shrimp_analysis)
