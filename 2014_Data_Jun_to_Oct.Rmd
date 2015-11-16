@@ -20,7 +20,6 @@ shrimp_analysis <- read.csv('./2014_Data_Jun_to_Oct.dat')
   colnames(shrimp_analysis)[colnames(shrimp_analysis)=="Scoop.."] <- "Scoop_Counts" 
   colnames(shrimp_analysis)[colnames(shrimp_analysis)=="Shrimp.."] <- "Shrimp_Counts" 
   colnames(shrimp_analysis)[colnames(shrimp_analysis)=="Size.Class"] <- "Size_Class" 
-  subset(shrimp_analysis, select = - Non.Veg.Fouling.Organisms, - Vegetation) 
   (shrimp_analysis$Non.Veg.Fouling.Organisms <- NULL) 
   (shrimp_analysis$Vegetation <- NULL) 
   (shrimp_analysis$Dissolved.Oxygen..mg.L. <- NULL) 
