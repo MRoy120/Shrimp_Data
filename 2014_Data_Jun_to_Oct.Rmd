@@ -1,0 +1,71 @@
+---
+title: "2014_Data_Jun_to_Oct"
+author: "Michael Roy"
+date: November 15, 2015
+output: html_document
+---
+
+Hey Jillian! So I decided to play around with my data in r, and this is what I came up with thus far!
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+####First I want to read in my csv, organize my data to rename certain columns, and omit others
+
+```{r}
+shrimp_analysis <- read.csv('./2014_Data_Jun_to_Oct.dat')
+  colnames(shrimp_analysis)[colnames(shrimp_analysis)=="X..of.Metas"] <- "meta_counts" 
+  colnames(shrimp_analysis)[colnames(shrimp_analysis)=="Infection.Status"] <- "Infection_Status" 
+  colnames(shrimp_analysis)[colnames(shrimp_analysis)=="Scoop.."] <- "Scoop_Counts" 
+  colnames(shrimp_analysis)[colnames(shrimp_analysis)=="Shrimp.."] <- "Shrimp_Counts" 
+  colnames(shrimp_analysis)[colnames(shrimp_analysis)=="Size.Class"] <- "Size_Class" 
+  subset(shrimp_analysis, select = - Non.Veg.Fouling.Organisms, - Vegetation) 
+  (shrimp_analysis$Non.Veg.Fouling.Organisms <- NULL) 
+  (shrimp_analysis$Vegetation <- NULL) 
+  (shrimp_analysis$Dissolved.Oxygen..mg.L. <- NULL) 
+  (shrimp_analysis$Scoop...2 <- NULL) 
+  (shrimp_analysis$X..of.Metas.2 <- NULL) 
+  (shrimp_analysis$Total.Size.Class <- NULL) 
+  (shrimp_analysis$Size.2 <- NULL) 
+  (shrimp_analysis$Size.Class.Sample <- NULL)
+
+  head(shrimp_analysis)
+  shrimp_analysis[1:200, ]
+  str(shrimp_analysis)
+  dim(shrimp_analysis)
+  attach(shrimp_analysis)
+  shrimp_analysis
+```
+
+####Now to try plotting size vs meta_counts for each site and each month  
+```{r}
+ggplot(data = shrimp_analysis, aes(x = Size, y = meta_counts, colour = Site, shape = Month)) +
+  geom_point()
+```
+
+####The following is just to remind myself the arguments in ggplot
+```{r}
+ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, colour = continent, shape = continent)) + 
+  geom_point()
+```
+
+####Now run an ANOVA in r
+```{r}
+aov_meta_site <- aov(meta_counts~Site)
+ls(aov_meta_site)
+summary(aov_meta_site)
+```
+
+####Now lets plot the results from the ANOVA
+```{r}
+ggplot(data = aov_meta_site, aes(x = Site, y = meta_counts)) +
+  geom_point()
+```
+
+####Things for later
+```{r}
+  shrimp_analysis_df <- data.frame(data = shrimp_analysis, c("Site",  "Month", "Scoop_Counts", "Shrimp_Counts", "Size", "Species", "meta_counts", "Sex", 
+                                                             "Infection_Status", "Salinity", "Temperature", "Size_Class"))
+  shrimp_analysis_df
+```
